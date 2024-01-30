@@ -17,13 +17,13 @@ import javax.servlet.http.HttpSession;
 // 5. 클라이언트가 뷰만 원하는지, 혹은 db 처리 후 뷰(여기서는 머스타치) 도 원하는지
 // 6. 뷰만 원하면 뷰만 응답, db처리를 원하면 모델에게 위임 후 뷰만 응답하면 끝
 
-//@AllArgsConstructor 이걸 하면 생성자는 필요없으나, int id = 1 ; 이런 식의 변수가 있으면 터짐
+//@AllArgsConstructor //이걸 하면 생성자는 필요없으나, int id = 1 ; 이런 식의 변수가 있으면 터짐
 @RequiredArgsConstructor //final 을 붙이고 이걸 사용하면 됨
 @Controller
 public class UserController {
 
-    private final UserRepository userRepository ; // 의존성 주입 받기 위해 만듬. 의존성 주입을 받을 떄 final을 붙여서 사용함
-    private final HttpSession session ;
+    private final   UserRepository userRepository; // 의존성 주입 받기 위해 만듬. 의존성 주입을 받을 떄 final을 붙여서 사용함
+    private final  HttpSession session ;
 
 //
 //    public UserController(UserRepository userRepository) {
