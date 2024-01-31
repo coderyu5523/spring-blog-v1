@@ -36,5 +36,5 @@ public class BoardController {
     @GetMapping("/board/1")
     public String detail() {
         return "board/detail";
-    }
+    } // 깃 테스트
 }
