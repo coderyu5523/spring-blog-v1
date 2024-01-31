@@ -39,13 +39,18 @@ public class UserController {
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requsetDTO){ // 클래스로 매개변수로 한방에 받기.
         System.out.println(requsetDTO);
-        //1. 유효성 검사
+
+        //1. 유효성 검사, 데이터베이스 없이 검사해야 됨. 근데 아이디가 중복되면 db를 조회해야됨
 
         if(requsetDTO.getUsername().length()<3){
             return "error/400";
         }
+        //2.동일 유저네임 체크, 트라이캐치로 잡을 수도 있음. 근데 트라이캐치 전에 잡을 수 있다면 잡는게 좋다.
 
-        //DB 인서트 - 모델에게 위임하기
+
+
+        //3.DB 인서트 - 모델에게 위임하기
+
         userRepository.save(requsetDTO) ; // 위임
 
         return"redirect:/loginForm";

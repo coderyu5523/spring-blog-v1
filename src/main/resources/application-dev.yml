@@ -20,7 +20,13 @@ spring:
   h2:
     console:
       enabled: true
-#웹에 연결될 수 있게
+  sql:
+    init:
+      data-locations:
+        - classpath:db/data.sql
+#          클레스패스는 리소스폴더, data-locations 는 리스트타입/ 야물 문법
+
+  #웹에 연결될 수 있게
   jpa:
     hibernate:
       ddl-auto: create
@@ -28,5 +34,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    defer-datasource-initialization: true
 #서버가 실행될 때 @entity 되어있는걸 크리에이트함.
 #hibernate 가 실행될 때     show-sql: true 면 내용 띄워줌
