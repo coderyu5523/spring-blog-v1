@@ -3,6 +3,7 @@ package shop.mtcoding.blog.user;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class UserController {
     // 3. final 붙이고 @RequiredArgsConstructor 붙이기
     //
 
+    @Transactional  // 여기 트랜잭션을 걸게 되면 유효성 검사부터 트랜잭션 걸림. 그래서 트랜잭션을 묶는 레이어가 필요.
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requsetDTO){ // 클래스로 매개변수로 한방에 받기.
         System.out.println(requsetDTO);
@@ -46,12 +48,20 @@ public class UserController {
             return "error/400";
         }
         //2.동일 유저네임 체크, 트라이캐치로 잡을 수도 있음. 근데 트라이캐치 전에 잡을 수 있다면 잡는게 좋다.
+        // 2, 3번을 동시에 트랜잭션을 걸어야 가입을 할때 동일한 아이디 여부를 확인하고 회원가입할 수 있음. 아니면 중복확인은 했는데 가입할 때 사용한 아이디가 되 수 있음
+        // 나중에 2 3 번을 하나의 레이어로 빼서 만드ㅡ는게 좋음
 
+        // 나중에 하나의 트랜잭션으로 묶는게 좋다.
+        User user = userRepository.findByUsername(requsetDTO.getUsername());
+        if(user == null){
+            userRepository.save(requsetDTO) ; // 위임
 
+        }else {
+            return "error/400";
+        }
 
         //3.DB 인서트 - 모델에게 위임하기
 
-        userRepository.save(requsetDTO) ; // 위임
 
         return"redirect:/loginForm";
 
