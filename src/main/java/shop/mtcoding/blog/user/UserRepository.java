@@ -35,16 +35,25 @@ public class UserRepository {
         user.setPassword(requestDTO.getPassword());
         user.setEmail(requestDTO.getEmail());
 
+//        System.out.println("UserRepository " +1);  디버깅할 때 번호를 매겨서 어디서 터지는지 확인
 
         em.persist(user);
     }
 
     public User findByUsernameAndPaaword(UserRequest.JoinDTO requsetDTO) {
-        Query query = em.createNativeQuery("select * from user_tb where username=? and password=?",User.class);  //User.class 알아서 맵핑. ResultSet해서 하나씩 파싱 안해도 됨.
+        Query query = em.createNativeQuery("select * from user_tb where username=? and password=?",User.class);  //User.class 알아서 맵핑.@Entity가 있어야됨 ResultSet해서 하나씩 파싱 안해도 됨.
         query.setParameter(1,requsetDTO.getUsername());
         query.setParameter(2,requsetDTO.getPassword());
 
-        User user = (User) query.getSingleResult(); // getSingleResult()의 리턴값이 오브젝트라 다운캐스팅
-        return user ;
+        // getSingleResult는 내부적으로 트라이캐치가 구현되어 있음. 내가 원하는 트라이캐치를 원하면 내가 새로 만들면 됨
+        // 내부적으로 터지면 터지는 위치를 내가 찾아서 트라이캐치해야 됨/
+        // 터지는 위치를 찾고 싶다면  system.out.print(1) 이런 식으로 번호를 넣어서 어디서 터지는지 찾아야됨.
+        try{
+            User user = (User) query.getSingleResult(); // getSingleResult()의 리턴값이 오브젝트라 다운캐스팅
+            return user ;
+        }catch(Exception e){
+            return null ;
+        }
+
     }
 }
