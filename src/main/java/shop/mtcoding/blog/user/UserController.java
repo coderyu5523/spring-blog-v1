@@ -109,6 +109,6 @@ public class UserController {
         session.invalidate(); // 로그아웃. 서랍의 내용을 다 삭제
                                 // 깃 테스트 코드
         return "redirect:/";
-        //
+        // 깃테스트
     }
 }
