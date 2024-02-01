@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -13,6 +14,13 @@ import java.util.List;
 public class BoardRepository {
 
     private final EntityManager em ;
+
+    public int count(){
+        Query query = em.createNativeQuery("select count(*) from board_tb");
+        BigInteger count = (BigInteger) query.getSingleResult();
+        return count.intValue();
+    }
+
 
     public List<Board> findAll(int page){
         final int COUNT = 3;
