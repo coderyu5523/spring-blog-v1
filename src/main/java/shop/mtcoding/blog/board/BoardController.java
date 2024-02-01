@@ -42,13 +42,29 @@ public class BoardController {
         // total = 4 cp = 0 false
         // total = 4 cp = 1 ture
 
-        boolean first = (curruentPage==0 ?true :false);
-        boolean last = true ;
+        int paging = 0 ;
 
+        boolean first = (curruentPage==0 ?true :false);
         request.setAttribute("first",first);
+
+
+        int totalPage = totalCount/3 ;
+        if(totalCount%3==0){
+            int lastPage = totalPage -1 ;
+            boolean last = (curruentPage==lastPage? true:false);
+
+            request.setAttribute("last",last);
+
+        } else if(totalCount%3!=0){
+            int lastPage = totalPage ;
+            boolean last = (curruentPage==lastPage? true:false);
+            request.setAttribute("last",last);
+        }
+
 
         return "index";
     }
+
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
