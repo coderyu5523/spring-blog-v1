@@ -82,12 +82,8 @@ public class UserController {
         }else {
             session.setAttribute("sessionUser",user); // setAttribute 해쉬맵  키 : 값
             return "redirect:/"; // 메인으로 연결
-
         }
-
     }
-
-
     @GetMapping("/joinForm")
     public String joinForm() {
         return "user/joinForm";
