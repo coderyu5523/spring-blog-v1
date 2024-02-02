@@ -1,14 +1,12 @@
 package shop.mtcoding.blog.user;
 
-import lombok.AllArgsConstructor;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
 
 //컨트롤러의 역할
 // 1. 요청받기(URL, URI)
@@ -24,7 +22,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
 
     private final   UserRepository userRepository; // 의존성 주입 받기 위해 만듬. 의존성 주입을 받을 떄 final을 붙여서 사용함
-    private final  HttpSession session ;
+    private final HttpSession session ;
 
 //
 //    public UserController(UserRepository userRepository) {

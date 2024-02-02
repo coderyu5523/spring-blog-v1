@@ -1,9 +1,9 @@
 package shop.mtcoding.blog.user;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 // 여기 있는 @는 컨포넌트 스캔은 안됨
 //db에서 조회된 user 데이터베이스 값을 여기에 받음
