@@ -16,7 +16,6 @@ public class BoardController {
 
     private final HttpSession session;
     private final BoardRepository boardRepository ;
-    //http://localhost:8080/page=0 가능
 
     //@RequestParam(defaultValue = "0") 이거는 값을 안넣으면 페이지=0 으로 설정
     @GetMapping({ "/", "/board" })
@@ -37,16 +36,10 @@ public class BoardController {
         request.setAttribute("prevPage",prevPage);  // 머스태치에 담기만 하면 됨
 
 
-        int totalCount = 4; // 나중에는 db에서 전체 데이터를 조회해야 됨. 그래야 라스트페이지를 알 수 있음
-
-        // total = 4 cp = 0 false
-        // total = 4 cp = 1 ture
-
-        int paging = 0 ;
-
         boolean first = (curruentPage==0 ?true :false);
         request.setAttribute("first",first);
 
+        int totalCount = 4; // 나중에는 db에서 전체 데이터를 조회해야 됨. 그래야 라스트페이지를 알 수 있음
 
         int totalPage = totalCount/3 ;
         if(totalCount%3==0){
