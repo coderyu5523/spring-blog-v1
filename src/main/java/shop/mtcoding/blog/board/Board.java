@@ -1,18 +1,17 @@
 package shop.mtcoding.blog.board;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data //게터세터,toString
 @Entity  // entity로 만든 것만 파싱함.
 @Table(name="board_tb") // 테이블명
 public class Board {
     @Id // 프라이머리키 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
-
     //포링키 테이블에 제약조건은 안넣는게 좋다. 삭제할 때 문제 생김
     private int id ;
     private String title;
@@ -21,6 +20,6 @@ public class Board {
     //타입이 스칼라가 아닌 여러개면 쪼개야됨.
 
     @CreationTimestamp
-    private LocalDate createdAt ;
+    private LocalDateTime createdAt ;
 
 }
