@@ -3,15 +3,16 @@ package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.qlrm.mapper.JpaResultMapper;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import shop.mtcoding.blog._core.Constant;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@Component
 public class BoardRepository {
 
     private final EntityManager em ;
@@ -23,10 +24,10 @@ public class BoardRepository {
     }
 
 
-    public List<Board> findAll(int page){
+    public List<Board> findAll(int page){  // 조회해서 화면에 띄우는게 목적./
         final int COUNT = 3;
         int value = page * COUNT ;
-     Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,?",Board.class); // 한 페이지에 3개씩 뿌림
+     Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,?", Board.class); // 한 페이지에 3개씩 뿌림
      query.setParameter(1,value);
      query.setParameter(2,Constant.PAGING_COUNT);
      List<Board> boardList = query.getResultList();
@@ -41,5 +42,14 @@ public class BoardRepository {
         JpaResultMapper rm =  new JpaResultMapper() ; // join 으로 임시테이블을 만들었을 때 받을 클래스 and 엔티티가 아닐 떄 사용
         BoardResponse.DetailDTO responseDTO = rm.uniqueResult(query,BoardResponse.DetailDTO.class);
         return responseDTO ;
+    }
+    @Transactional
+    public void save(BoardRequest.saveDTO requestDTO,int userId) {
+        Query query = em.createNativeQuery("insert into board_tb(title,content,user_id,created_at) values(?,?,?,now());");
+        query.setParameter(1, requestDTO.getTitle());
+        query.setParameter(2, requestDTO.getContent());
+        query.setParameter(3, userId);
+        query.executeUpdate();
+
     }
 }

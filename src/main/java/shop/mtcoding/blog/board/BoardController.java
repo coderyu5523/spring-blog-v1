@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog.user.User;
 
@@ -38,17 +39,47 @@ public class BoardController {
 
         return "index";
     }
+    @PostMapping("/board/save")
+    public String saveWrite(BoardRequest.saveDTO requestDTO,HttpServletRequest request){
+        //1. 인증체크
+        User sessionUser = (User) session.getAttribute("sessionUser");
 
+        if(sessionUser==null){
+            return "redirect:/loginForm";
+        }
+
+        //2. 바디데이터 확인 및 유효성 검사
+
+
+        // 유효성 검사.
+        if(requestDTO.getTitle().length()>30){
+            request.setAttribute("status",400);
+            request.setAttribute("msg","title의 길이가 300자를 초과하면 안되요.");
+            return "error/40x"; //
+        }
+
+        boardRepository.save(requestDTO,sessionUser.getId());
+
+        return "redirect:/";
+
+    }
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        if(sessionUser==null){
+            return "redirect:/loginForm";
+        }
+
         return "board/saveForm";
     }
-
     @GetMapping("/board/{id}")  // board 뒤에 1은 pk.  pk는 게시글 뒤에 바로 이름을 작성함
     public String detail(@PathVariable int id, HttpServletRequest request) { // {} 를 알아서 파싱해줌
         BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
         request.setAttribute("board",responseDTO);
+
+        //바디데이터 없으면 유효성 검사는  필요없다.
 
         //1. 해당 페이지의 주인 여부
         boolean owner = false ;

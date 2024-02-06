@@ -14,6 +14,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
     //포링키 테이블에 제약조건은 안넣는게 좋다. 삭제할 때 문제 생김
     private int id ;
+    @Column(length =30)
     private String title;
     private String content;
     private int userId ; // 포링키 , 포링키에

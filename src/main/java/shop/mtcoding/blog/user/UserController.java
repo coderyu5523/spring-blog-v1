@@ -80,7 +80,7 @@ public class UserController {
             return "error/401";
         }else {
             session.setAttribute("sessionUser",user); // setAttribute 해쉬맵  키 : 값
-            return "redirect:/"; // 메인으로 연결
+            return "redirect:/"; // 메인으로 연결. 컨트롤러가 존재하면 무조건 리다이렉트
         }
     }
     @GetMapping("/joinForm")
