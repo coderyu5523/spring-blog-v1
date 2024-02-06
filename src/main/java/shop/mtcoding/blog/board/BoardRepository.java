@@ -52,4 +52,19 @@ public class BoardRepository {
         query.executeUpdate();
 
     }
+
+    public Board findByIdCheck(int id){
+        Query query = em.createNativeQuery("select * from board_tb where id = ?",Board.class);
+        //삭제하기 전에 select 하면 성능이 현저하게 좋아짐.
+        query.setParameter(1, id);
+        Board board = (Board) query.getSingleResult();
+        return board;
+
+    }
+    @Transactional
+    public void deleteById(int id) {
+        Query query = em.createNativeQuery("delete from board_tb where id =?");
+        query.setParameter(1,id);
+        query.executeUpdate();
+    }
 }
